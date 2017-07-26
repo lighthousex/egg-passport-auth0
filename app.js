@@ -31,19 +31,14 @@ module.exports = app => {
   // must require `req` params
   app.passport.use(
     'auth0',
-    new Auth0Strategy(
-      config,
-      (req, token, tokenSecret, params, profile, done) => {
-        return done(null, profile);
-      }
-    )
+    new Auth0Strategy(config, function(
+      accessToken,
+      refreshToken,
+      extraParams,
+      profile,
+      done
+    ) {
+      return done(null, profile);
+    })
   );
-
-  app.passport.serializeUser(function(user, done) {
-    done(null, user);
-  });
-
-  app.passport.deserializeUser(function(user, done) {
-    done(null, user);
-  });
 };
